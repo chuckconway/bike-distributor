@@ -1,0 +1,19 @@
+﻿@using System
+@model BikeDistributor.Receipt
+
+Company: @Model.Company
+
+Date: @Model.Date.ToShortDateString()
+Invoice: @Model.InvoiceNumber
+
+Items
+-------------------------------------------------------------------
+
+@string.Concat(Model.Items.Select(s=> string.Format("Qty: {0}, Description: {1}, Total: {2}", s.Quantity, s.Description, s.Total.ToString("C")) + Environment.NewLine).ToArray())
+
+-------------------------------------------------------------------
+SubTotal: @Model.SubTotal.ToString("C")
+Tax Rate: @Model.TaxRate.ToString("P1")
+Tax: @Model.Tax.ToString("C")
+--------------------
+Total: @Model.Total.ToString("C")

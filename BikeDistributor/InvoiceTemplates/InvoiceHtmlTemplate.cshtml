@@ -1,0 +1,113 @@
+﻿@model BikeDistributor.Receipt
+<!DOCTYPE>
+<html lang="en">
+<head>
+    <title>Accountant Statement</title>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="initial-scale=1.0">    <!-- So that mobile webkit will display zoomed in -->
+    <meta name="format-detection" content="telephone=no"> <!-- disable auto telephone linking in iOS -->
+
+    <style type="text/css">
+        body {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+
+        .table {
+            margin-bottom: 20px;
+            width: 100%;
+            color: #333;
+            font-size: 13px;
+        }
+
+        table {
+            background-color: transparent;
+            max-width: 100%;
+        }
+
+        table {
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+
+        .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+            padding: 15px;
+            border-top: 1px #ddd solid;
+        }
+
+        .table > caption + thead > tr:first-child > th, .table > colgroup + thead > tr:first-child > th, .table > thead:first-child > tr:first-child > th, .table > caption + thead > tr:first-child > td, .table > colgroup + thead > tr:first-child > td, .table > thead:first-child > tr:first-child > td {
+            border-top: 0 none;
+        }
+
+        .table thead > tr > th {
+            border-bottom: medium none;
+        }
+
+        .table tbody > tr:nth-child(2n) {
+            background-color: #eee;
+        }
+
+        .table tfoot > tr > td {
+            border: none;
+        }
+
+        .table tbody {
+            border-bottom: 2px solid #333;
+        }
+        
+        .text-right {
+            text-align: right;
+        }
+
+        .text-left {
+            text-align: left;
+        }
+
+        ul {margin:0; padding:0px;}
+        ul li { margin: 0;padding: 0px;list-style: none; }
+    </style>
+
+
+
+</head>
+<body>
+
+    <ul>
+        <li>@Model.Company</li>
+        <li>@Model.Date.ToShortDateString()</li>
+        <li>Invoice #: @Model.InvoiceNumber</li>
+    </ul>
+
+<table class="table striped">
+    <thead>
+    <tr>
+        <th style="text-align: left;">Qty</th>
+        <th style="text-align: left;">Description</th>
+        <th style="text-align: right;">Total</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in @Model.Items)
+    {
+        <tr>
+            <td class="text-left">@(item.Quantity > 0 ? item.Quantity.ToString() : string.Empty) </td>
+            <td class="text-left">@item.Description</td>
+            <td class="text-right">@item.Total.ToString("C")</td>
+        </tr>
+    }
+    </tbody>
+    <tfoot>
+    <tr>
+        <td class="text-right" colspan="3">
+            <ul>
+                <li>Sub Total: @Model.SubTotal.ToString("C")</li>
+                <li>Tax at @Model.TaxRate.ToString("P1"): @Model.Tax.ToString("C")</li>
+                <li style="font-weight: bold;">Total: @Model.Total.ToString("C")</li>
+            </ul>
+        </td>
+    </tr>
+
+    </tfoot>
+</table>
+</body>
+</html>
